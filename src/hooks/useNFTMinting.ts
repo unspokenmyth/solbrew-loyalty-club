@@ -5,7 +5,7 @@ import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } f
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import { mplTokenMetadata, createNft, fetchDigitalAsset } from '@metaplex-foundation/mpl-token-metadata';
-import { generateSigner, percentAmount } from '@metaplex-foundation/umi';
+import { generateSigner, percentAmount } from '@metaplex-foundation/umi-bundle-defaults';
 import { connection, NFT_COLLECTION_CONFIG } from '@/config/solana';
 import { useToast } from '@/hooks/use-toast';
 

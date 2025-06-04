@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
-import { publicKey } from '@metaplex-foundation/umi';
-import { mplTokenMetadata, fetchDigitalAssetsByOwner } from '@metaplex-foundation/mpl-token-metadata';
+import { publicKey } from '@metaplex-foundation/umi-bundle-defaults';
+import { mplTokenMetadata, fetchAllDigitalAssetByOwner } from '@metaplex-foundation/mpl-token-metadata';
 import { connection } from '@/config/solana';
 
 interface UserNFT {
@@ -30,7 +30,7 @@ export const useUserNFTs = () => {
       const umi = createUmi(connection.rpcEndpoint).use(mplTokenMetadata());
       
       // Fetch all NFTs owned by the wallet
-      const digitalAssets = await fetchDigitalAssetsByOwner(
+      const digitalAssets = await fetchAllDigitalAssetByOwner(
         umi,
         publicKey(walletPublicKey.toString())
       );
