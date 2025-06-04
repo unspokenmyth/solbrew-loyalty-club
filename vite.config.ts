@@ -18,6 +18,11 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      buffer: "buffer",
+      stream: "stream-browserify",
+      url: "url",
+      http: "stream-http",
+      https: "https-browserify",
     },
   },
   define: {
@@ -28,7 +33,12 @@ export default defineConfig(({ mode }) => ({
     include: [
       '@solana/web3.js',
       '@metaplex-foundation/umi-bundle-defaults',
-      '@metaplex-foundation/mpl-token-metadata'
+      '@metaplex-foundation/mpl-token-metadata',
+      'buffer',
+      'stream-browserify',
+      'url',
+      'stream-http',
+      'https-browserify',
     ],
   },
 }));
