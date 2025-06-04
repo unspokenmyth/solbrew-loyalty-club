@@ -22,5 +22,13 @@ export default defineConfig(({ mode }) => ({
   },
   define: {
     global: 'globalThis',
+    'process.env': {},
+  },
+  optimizeDeps: {
+    include: [
+      '@solana/web3.js',
+      '@metaplex-foundation/umi-bundle-defaults',
+      '@metaplex-foundation/mpl-token-metadata'
+    ],
   },
 }));
