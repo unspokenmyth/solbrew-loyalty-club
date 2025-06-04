@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,10 +7,12 @@ import { WalletConnection } from "@/components/WalletConnection";
 import { MembershipTiers } from "@/components/MembershipTiers";
 import { RewardsDisplay } from "@/components/RewardsDisplay";
 import { HeroSection } from "@/components/HeroSection";
+import { useWallet } from "@/hooks/useWallet";
+import { useUserNFTs } from "@/hooks/useUserNFTs";
 
 const Index = () => {
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
-  const [userTier, setUserTier] = useState<string | null>(null);
+  const { connected } = useWallet();
+  const { userTier } = useUserNFTs();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
@@ -24,11 +25,7 @@ const Index = () => {
               SolBrew
             </span>
           </div>
-          <WalletConnection 
-            isConnected={isWalletConnected} 
-            onConnect={() => setIsWalletConnected(true)}
-            onDisconnect={() => setIsWalletConnected(false)}
-          />
+          <WalletConnection />
         </div>
       </nav>
 
@@ -46,11 +43,7 @@ const Index = () => {
               Mint your SolBrew NFT membership and unlock exclusive perks. Each tier is an NFT on the Solana blockchain.
             </p>
           </div>
-          <MembershipTiers 
-            isWalletConnected={isWalletConnected}
-            userTier={userTier}
-            onMint={(tier) => setUserTier(tier)}
-          />
+          <MembershipTiers />
         </div>
       </section>
 

@@ -1,61 +1,37 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Wallet, ExternalLink, Copy, LogOut } from "lucide-react";
+import { Wallet, Copy, LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useWallet } from "@/hooks/useWallet";
 
-interface WalletConnectionProps {
-  isConnected: boolean;
-  onConnect: () => void;
-  onDisconnect: () => void;
-}
-
-export const WalletConnection = ({ isConnected, onConnect, onDisconnect }: WalletConnectionProps) => {
+export const WalletConnection = () => {
   const { toast } = useToast();
-  const [isConnecting, setIsConnecting] = useState(false);
-  
-  // Mock wallet address for demo
-  const mockWalletAddress = "7xKs...9mNp";
-  const mockBalance = "1.24 SOL";
+  const { connected, connecting, walletAddress, connect, disconnect } = useWallet();
 
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    
-    // Simulate wallet connection delay
-    setTimeout(() => {
-      onConnect();
-      setIsConnecting(false);
+  const copyAddress = async () => {
+    if (walletAddress) {
+      await navigator.clipboard.writeText(walletAddress);
       toast({
-        title: "Wallet Connected",
-        description: "Your Phantom wallet has been connected successfully.",
+        title: "Address Copied",
+        description: "Wallet address copied to clipboard",
       });
-    }, 1500);
+    }
   };
 
-  const handleDisconnect = () => {
-    onDisconnect();
-    toast({
-      title: "Wallet Disconnected",
-      description: "Your wallet has been disconnected.",
-    });
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
   };
 
-  const copyAddress = () => {
-    navigator.clipboard.writeText("7xKs1234567890abcdef1234567890abcdef9mNp");
-    toast({
-      title: "Address Copied",
-      description: "Wallet address copied to clipboard",
-    });
-  };
-
-  if (isConnected) {
+  if (connected && walletAddress) {
     return (
       <div className="flex items-center space-x-3">
         <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 border border-amber-200">
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm font-medium text-gray-700">{mockWalletAddress}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {formatAddress(walletAddress)}
+            </span>
             <Button
               variant="ghost"
               size="sm"
@@ -65,13 +41,12 @@ export const WalletConnection = ({ isConnected, onConnect, onDisconnect }: Walle
               <Copy className="h-3 w-3" />
             </Button>
           </div>
-          <div className="text-xs text-gray-500 mt-1">{mockBalance}</div>
         </div>
         
         <Button
           variant="outline"
           size="sm"
-          onClick={handleDisconnect}
+          onClick={disconnect}
           className="border-red-200 text-red-600 hover:bg-red-50"
         >
           <LogOut className="h-4 w-4 mr-1" />
@@ -83,12 +58,12 @@ export const WalletConnection = ({ isConnected, onConnect, onDisconnect }: Walle
 
   return (
     <Button
-      onClick={handleConnect}
-      disabled={isConnecting}
+      onClick={connect}
+      disabled={connecting}
       className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-lg"
     >
       <Wallet className="h-4 w-4 mr-2" />
-      {isConnecting ? "Connecting..." : "Connect Wallet"}
+      {connecting ? "Connecting..." : "Connect Wallet"}
     </Button>
   );
 };

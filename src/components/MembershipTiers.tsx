@@ -1,19 +1,15 @@
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Crown, Star, Award, Zap, Coffee, Gift } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-interface MembershipTiersProps {
-  isWalletConnected: boolean;
-  userTier: string | null;
-  onMint: (tier: string) => void;
-}
+import { useWallet } from "@/hooks/useWallet";
+import { useNFTMinting } from "@/hooks/useNFTMinting";
+import { useUserNFTs } from "@/hooks/useUserNFTs";
 
 interface TierData {
-  name: string;
+  name: 'Bronze' | 'Silver' | 'Gold';
   price: string;
   color: string;
   icon: any;
@@ -60,12 +56,14 @@ const tiers: TierData[] = [
   }
 ];
 
-export const MembershipTiers = ({ isWalletConnected, userTier, onMint }: MembershipTiersProps) => {
+export const MembershipTiers = () => {
   const { toast } = useToast();
-  const [mintingTier, setMintingTier] = useState<string | null>(null);
+  const { connected } = useWallet();
+  const { mintNFT, minting } = useNFTMinting();
+  const { userNFTs, userTier } = useUserNFTs();
 
-  const handleMint = async (tierName: string) => {
-    if (!isWalletConnected) {
+  const handleMint = async (tierName: 'Bronze' | 'Silver' | 'Gold') => {
+    if (!connected) {
       toast({
         title: "Wallet Required",
         description: "Please connect your wallet to mint an NFT membership.",
@@ -74,34 +72,28 @@ export const MembershipTiers = ({ isWalletConnected, userTier, onMint }: Members
       return;
     }
 
-    setMintingTier(tierName);
-    
-    // Simulate minting process
-    setTimeout(() => {
-      onMint(tierName);
-      setMintingTier(null);
-      toast({
-        title: "NFT Minted Successfully! 🎉",
-        description: `Your ${tierName} membership NFT has been minted to your wallet.`,
-      });
-    }, 3000);
+    await mintNFT(tierName);
+  };
+
+  const isOwned = (tierName: string) => {
+    return userNFTs.some(nft => nft.tier === tierName);
   };
 
   return (
     <div id="membership-tiers" className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       {tiers.map((tier) => {
         const Icon = tier.icon;
-        const isOwned = userTier === tier.name;
-        const isMinting = mintingTier === tier.name;
+        const owned = isOwned(tier.name);
+        const isMinting = minting === tier.name;
         
         return (
           <Card 
             key={tier.name}
             className={`relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${
-              isOwned ? 'ring-2 ring-green-500 shadow-lg' : ''
+              owned ? 'ring-2 ring-green-500 shadow-lg' : ''
             } ${tier.borderColor} border-2`}
           >
-            {isOwned && (
+            {owned && (
               <div className="absolute top-4 right-4">
                 <Badge className="bg-green-500 text-white">Owned</Badge>
               </div>
@@ -162,14 +154,14 @@ export const MembershipTiers = ({ isWalletConnected, userTier, onMint }: Members
 
               <Button
                 onClick={() => handleMint(tier.name)}
-                disabled={!isWalletConnected || isOwned || isMinting}
+                disabled={!connected || owned || isMinting}
                 className={`w-full ${
-                  isOwned 
+                  owned 
                     ? 'bg-green-500 hover:bg-green-600' 
                     : `bg-gradient-to-r ${tier.gradient} hover:opacity-90`
                 } text-white font-semibold py-3 rounded-lg transition-all duration-300`}
               >
-                {isOwned ? (
+                {owned ? (
                   <>
                     <Award className="h-4 w-4 mr-2" />
                     Owned
@@ -177,7 +169,7 @@ export const MembershipTiers = ({ isWalletConnected, userTier, onMint }: Members
                 ) : isMinting ? (
                   <>
                     <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
-                    Minting...
+                    Minting NFT...
                   </>
                 ) : (
                   <>
