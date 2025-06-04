@@ -1,21 +1,21 @@
 
 import { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults';
 import { walletAdapterIdentity } from '@metaplex-foundation/umi-signer-wallet-adapters';
 import { mplTokenMetadata, createNft, fetchDigitalAsset } from '@metaplex-foundation/mpl-token-metadata';
-import { generateSigner, percentAmount } from '@metaplex-foundation/umi-bundle-defaults';
+import { generateSigner, percentAmount, publicKey } from '@metaplex-foundation/umi';
 import { connection, NFT_COLLECTION_CONFIG } from '@/config/solana';
 import { useToast } from '@/hooks/use-toast';
 
 export const useNFTMinting = () => {
-  const { wallet, publicKey, sendTransaction } = useWallet();
+  const { wallet, publicKey: walletPublicKey, sendTransaction } = useWallet();
   const { toast } = useToast();
   const [minting, setMinting] = useState<string | null>(null);
 
   const mintNFT = async (tier: 'Bronze' | 'Silver' | 'Gold') => {
-    if (!wallet || !publicKey) {
+    if (!wallet || !walletPublicKey) {
       toast({
         title: "Wallet Required",
         description: "Please connect your wallet to mint an NFT",
@@ -56,7 +56,7 @@ export const useNFTMinting = () => {
       };
 
       // Check wallet balance
-      const balance = await connection.getBalance(publicKey);
+      const balance = await connection.getBalance(walletPublicKey);
       const requiredLamports = tierConfig.price * LAMPORTS_PER_SOL;
       
       if (balance < requiredLamports) {
