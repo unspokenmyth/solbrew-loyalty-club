@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Wallet, Coffee, Star, Crown, Award, Zap, Gift } from "lucide-react";
+import { Coffee, Crown, Award, Star, Zap, Gift, User, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import { WalletConnection } from "@/components/WalletConnection";
 import { MembershipTiers } from "@/components/MembershipTiers";
 import { RewardsDisplay } from "@/components/RewardsDisplay";
@@ -25,7 +26,26 @@ const Index = () => {
               SolBrew
             </span>
           </div>
-          <WalletConnection />
+          
+          <div className="flex items-center gap-4">
+            {connected && (
+              <>
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Profile
+                  </Button>
+                </Link>
+                <Link to="/admin">
+                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    Admin
+                  </Button>
+                </Link>
+              </>
+            )}
+            <WalletConnection />
+          </div>
         </div>
       </nav>
 
@@ -52,6 +72,69 @@ const Index = () => {
         <section className="py-20 px-4 bg-gradient-to-r from-amber-100 to-orange-100">
           <div className="container mx-auto">
             <RewardsDisplay userTier={userTier} />
+          </div>
+        </section>
+      )}
+
+      {/* Quick Access for Members */}
+      {connected && (
+        <section className="py-20 px-4">
+          <div className="container mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                Member Dashboard
+              </h2>
+              <p className="text-gray-600">
+                Quick access to your membership features
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              <Link to="/profile">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader className="text-center">
+                    <User className="h-12 w-12 text-amber-600 mx-auto mb-2" />
+                    <CardTitle className="text-lg">My Profile</CardTitle>
+                    <CardDescription>
+                      View your membership status, NFTs, and rewards
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Link to="/admin">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardHeader className="text-center">
+                    <Settings className="h-12 w-12 text-amber-600 mx-auto mb-2" />
+                    <CardTitle className="text-lg">Admin Panel</CardTitle>
+                    <CardDescription>
+                      Manage rewards and verify member benefits
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardHeader className="text-center">
+                  <Gift className="h-12 w-12 text-amber-600 mx-auto mb-2" />
+                  <CardTitle className="text-lg">Rewards Center</CardTitle>
+                  <CardDescription>
+                    Track your savings and available benefits
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="text-center">
+                  {userTier ? (
+                    <Badge variant="default" className="mt-2">
+                      {userTier} Member
+                    </Badge>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      Mint an NFT to access rewards
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
       )}
