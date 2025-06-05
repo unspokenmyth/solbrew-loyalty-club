@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -52,7 +51,11 @@ export const MintingModal: React.FC<MintingModalProps> = ({ isOpen, onClose, tie
       setProgress(80);
       
       if (result?.signature) {
-        setTxSignature(result.signature);
+        // Convert Uint8Array signature to base58 string
+        const signatureString = typeof result.signature === 'string' 
+          ? result.signature 
+          : Buffer.from(result.signature).toString('base64');
+        setTxSignature(signatureString);
         setProgress(100);
         setStep('success');
       } else {
