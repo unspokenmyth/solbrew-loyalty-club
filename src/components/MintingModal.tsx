@@ -51,7 +51,7 @@ export const MintingModal: React.FC<MintingModalProps> = ({ isOpen, onClose, tie
       const result = await mintNFT(tier);
       setProgress(80);
       
-      if (result) {
+      if (result?.signature) {
         setTxSignature(result.signature);
         setProgress(100);
         setStep('success');
@@ -120,7 +120,7 @@ export const MintingModal: React.FC<MintingModalProps> = ({ isOpen, onClose, tie
               <Button onClick={handleClose} variant="outline" className="flex-1">
                 Cancel
               </Button>
-              <Button onClick={handleMint} disabled={minting} className="flex-1">
+              <Button onClick={handleMint} disabled={Boolean(minting)} className="flex-1">
                 {minting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
