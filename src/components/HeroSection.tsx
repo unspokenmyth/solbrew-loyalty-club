@@ -16,29 +16,33 @@ export const HeroSection = () => {
   };
 
   return (
-    <div className="relative">
-      <HeroGeometric 
-        badge="SolBrew Loyalty"
-        title1="Elevate Your Coffee"
-        title2="Experience"
-      />
+    <div className="relative min-h-screen">
+      {/* Background with geometric shapes */}
+      <div className="absolute inset-0">
+        <HeroGeometric 
+          badge="SolBrew Loyalty"
+          title1="Elevate Your Coffee"
+          title2="Experience"
+        />
+      </div>
       
-      {/* Content Overlay */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
+      {/* Content Overlay - positioned properly */}
+      <div className="relative z-20 min-h-screen flex flex-col items-center justify-center">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
+            {/* Main content that appears after the title */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1.5 }}
-              className="mb-12"
+              transition={{ duration: 1, delay: 2.5 }}
+              className="mt-16 mb-12"
             >
               <p className="text-xl md:text-2xl text-amber-100/80 mb-8 leading-relaxed font-light max-w-3xl mx-auto drop-shadow-lg">
                 Join the future of coffee loyalty with blockchain-powered NFT memberships. 
                 Unlock exclusive perks, earn rewards, and be part of the SolBrew community.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
                 <Button
                   onClick={scrollToMembership}
                   size="lg"
@@ -61,12 +65,12 @@ export const HeroSection = () => {
               </div>
             </motion.div>
 
-            {/* Feature highlights */}
+            {/* Feature highlights - appear last */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 2 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+              transition={{ duration: 1, delay: 3 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-amber-200/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                 <Zap className="h-8 w-8 text-amber-400 mb-4 mx-auto" />
