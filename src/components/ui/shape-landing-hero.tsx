@@ -1,4 +1,3 @@
-
 "use client";
 
 import { motion } from "framer-motion";
@@ -94,8 +93,11 @@ function HeroGeometric({
     };
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-900/20 via-orange-900/10 to-yellow-900/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.08] via-transparent to-orange-500/[0.08] blur-3xl" />
+        <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-900/30 via-orange-900/20 to-yellow-900/30">
+            {/* Enhanced gradient overlay with more vibrant colors */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/[0.15] via-orange-500/[0.10] to-yellow-500/[0.15] blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-red-500/[0.08] via-transparent to-pink-500/[0.08] blur-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-bl from-purple-500/[0.06] via-transparent to-blue-500/[0.06] blur-xl" />
 
             <div className="absolute inset-0 overflow-hidden">
                 <ElegantShape
@@ -103,7 +105,7 @@ function HeroGeometric({
                     width={600}
                     height={140}
                     rotate={12}
-                    gradient="from-amber-500/[0.15]"
+                    gradient="from-amber-500/[0.20] via-orange-500/[0.15]"
                     className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
                 />
 
@@ -112,7 +114,7 @@ function HeroGeometric({
                     width={500}
                     height={120}
                     rotate={-15}
-                    gradient="from-orange-500/[0.15]"
+                    gradient="from-orange-500/[0.20] via-red-500/[0.15]"
                     className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
                 />
 
@@ -121,7 +123,7 @@ function HeroGeometric({
                     width={300}
                     height={80}
                     rotate={-8}
-                    gradient="from-yellow-500/[0.15]"
+                    gradient="from-yellow-500/[0.20] via-amber-400/[0.15]"
                     className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
                 />
 
@@ -130,7 +132,7 @@ function HeroGeometric({
                     width={200}
                     height={60}
                     rotate={20}
-                    gradient="from-amber-400/[0.15]"
+                    gradient="from-amber-400/[0.20] via-orange-400/[0.15]"
                     className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
                 />
 
@@ -139,12 +141,31 @@ function HeroGeometric({
                     width={150}
                     height={40}
                     rotate={-25}
-                    gradient="from-orange-400/[0.15]"
+                    gradient="from-orange-400/[0.20] via-red-400/[0.15]"
                     className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+                />
+
+                {/* Additional shapes for more depth */}
+                <ElegantShape
+                    delay={0.8}
+                    width={250}
+                    height={70}
+                    rotate={35}
+                    gradient="from-purple-500/[0.15] via-pink-500/[0.10]"
+                    className="right-[5%] md:right-[10%] bottom-[20%] md:bottom-[25%]"
+                />
+
+                <ElegantShape
+                    delay={0.9}
+                    width={180}
+                    height={50}
+                    rotate={-30}
+                    gradient="from-blue-500/[0.15] via-indigo-500/[0.10]"
+                    className="left-[30%] md:left-[35%] top-[60%] md:top-[65%]"
                 />
             </div>
 
-            {/* Just the title and badge - content overlay handles the rest */}
+            {/* Title and badge with enhanced contrast */}
             <div className="relative z-10 container mx-auto px-4 md:px-6">
                 <div className="max-w-3xl mx-auto text-center">
                     <motion.div
@@ -152,10 +173,10 @@ function HeroGeometric({
                         variants={fadeUpVariants}
                         initial="hidden"
                         animate="visible"
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.08] border border-amber-200/[0.15] mb-8 md:mb-12 shadow-lg"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.12] border border-amber-200/[0.20] mb-8 md:mb-12 shadow-xl backdrop-blur-md"
                     >
-                        <Circle className="h-2 w-2 fill-amber-500/80" />
-                        <span className="text-sm text-amber-100/80 tracking-wide font-medium">
+                        <Circle className="h-2 w-2 fill-amber-400/90 text-amber-400/90" />
+                        <span className="text-sm text-white/90 tracking-wide font-medium">
                             {badge}
                         </span>
                     </motion.div>
@@ -166,16 +187,12 @@ function HeroGeometric({
                         initial="hidden"
                         animate="visible"
                     >
-                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight drop-shadow-2xl">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-amber-50 to-amber-100/90 drop-shadow-lg">
+                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
+                            <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-amber-50 to-amber-100/95 drop-shadow-2xl filter brightness-110">
                                 {title1}
                             </span>
                             <br />
-                            <span
-                                className={cn(
-                                    "bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-white/95 to-orange-200 drop-shadow-lg"
-                                )}
-                            >
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-white/98 to-orange-200 drop-shadow-2xl filter brightness-110">
                                 {title2}
                             </span>
                         </h1>
@@ -183,7 +200,9 @@ function HeroGeometric({
                 </div>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-amber-950/30 via-transparent to-orange-950/20 pointer-events-none" />
+            {/* Enhanced overlay gradients for better contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-amber-950/40 via-transparent to-orange-950/30 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-950/20 via-transparent to-blue-950/20 pointer-events-none" />
         </div>
     );
 }

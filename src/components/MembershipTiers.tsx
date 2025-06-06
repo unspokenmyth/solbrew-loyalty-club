@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +23,7 @@ interface TierData {
 const tiers: TierData[] = [
   {
     name: "Bronze",
-    price: "0 SOL",
+    price: "0.1 SOL",
     color: "text-amber-700",
     icon: Coffee,
     gradient: "from-amber-400 to-orange-500",
@@ -35,7 +34,7 @@ const tiers: TierData[] = [
   },
   {
     name: "Silver",
-    price: "0 SOL",
+    price: "0.25 SOL",
     color: "text-gray-700",
     icon: Star,
     gradient: "from-gray-400 to-gray-600",
@@ -46,7 +45,7 @@ const tiers: TierData[] = [
   },
   {
     name: "Gold",
-    price: "0 SOL",
+    price: "0.5 SOL",
     color: "text-yellow-700",
     icon: Crown,
     gradient: "from-yellow-400 to-yellow-600",

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,9 +31,9 @@ export const RewardsDisplay = ({ userTier }: RewardsDisplayProps) => {
       loyaltyPoints: 150,
       nextReward: 350,
       availableRewards: [
-        { name: "Free Regular Coffee", points: 100, available: true },
-        { name: "Birthday Drink", points: 0, available: true },
-        { name: "Size Upgrade", points: 50, available: true }
+        { name: "Free Regular Coffee", points: 100, available: true, image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=150&fit=crop" },
+        { name: "Birthday Drink", points: 0, available: true, image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=200&h=150&fit=crop" },
+        { name: "Size Upgrade", points: 50, available: true, image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&h=150&fit=crop" }
       ]
     },
     Silver: {
@@ -43,10 +42,10 @@ export const RewardsDisplay = ({ userTier }: RewardsDisplayProps) => {
       loyaltyPoints: 420,
       nextReward: 580,
       availableRewards: [
-        { name: "Free Premium Coffee", points: 150, available: true },
-        { name: "Free Pastry", points: 200, available: true },
-        { name: "Tasting Event Access", points: 0, available: true },
-        { name: "Custom Drink Creation", points: 300, available: true }
+        { name: "Free Premium Coffee", points: 150, available: true, image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=150&fit=crop" },
+        { name: "Free Pastry", points: 200, available: true, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=150&fit=crop" },
+        { name: "Tasting Event Access", points: 0, available: true, image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=200&h=150&fit=crop" },
+        { name: "Custom Drink Creation", points: 300, available: true, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=200&h=150&fit=crop" }
       ]
     },
     Gold: {
@@ -55,11 +54,11 @@ export const RewardsDisplay = ({ userTier }: RewardsDisplayProps) => {
       loyaltyPoints: 890,
       nextReward: 1000,
       availableRewards: [
-        { name: "Any Drink Free", points: 0, available: true },
-        { name: "Premium Bean Bag", points: 500, available: true },
-        { name: "Private Barista Session", points: 0, available: true },
-        { name: "Quarterly Gift Box", points: 0, available: true },
-        { name: "VIP Event Access", points: 0, available: true }
+        { name: "Any Drink Free", points: 0, available: true, image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=200&h=150&fit=crop" },
+        { name: "Premium Bean Bag", points: 500, available: true, image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=150&fit=crop" },
+        { name: "Private Barista Session", points: 0, available: true, image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=200&h=150&fit=crop" },
+        { name: "Quarterly Gift Box", points: 0, available: true, image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=200&h=150&fit=crop" },
+        { name: "VIP Event Access", points: 0, available: true, image: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=200&h=150&fit=crop" }
       ]
     }
   };
@@ -174,43 +173,51 @@ export const RewardsDisplay = ({ userTier }: RewardsDisplayProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.availableRewards.map((reward, index) => (
               <div 
                 key={index}
-                className="bg-gradient-to-r from-white to-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-all duration-200"
+                className="bg-gradient-to-r from-white to-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition-all duration-200 overflow-hidden"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <h4 className="font-semibold text-gray-800">{reward.name}</h4>
-                  {reward.points === 0 && (
-                    <Badge className="bg-green-100 text-green-800 text-xs">Free</Badge>
-                  )}
-                </div>
-                
-                <div className="mb-3">
-                  {reward.points > 0 ? (
-                    <span className="text-lg font-bold text-amber-600">
-                      {reward.points} pts
-                    </span>
-                  ) : (
-                    <span className="text-lg font-bold text-green-600">
-                      Included
-                    </span>
-                  )}
-                </div>
+                <img 
+                  src={reward.image} 
+                  alt={reward.name}
+                  className="w-full h-32 object-cover"
+                />
+                <div className="p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <h4 className="font-semibold text-gray-800 text-sm">{reward.name}</h4>
+                    {reward.points === 0 && (
+                      <Badge className="bg-green-100 text-green-800 text-xs">Free</Badge>
+                    )}
+                  </div>
+                  
+                  <div className="mb-3">
+                    {reward.points > 0 ? (
+                      <span className="text-lg font-bold text-amber-600">
+                        {reward.points} pts
+                      </span>
+                    ) : (
+                      <span className="text-lg font-bold text-green-600">
+                        Included
+                      </span>
+                    )}
+                  </div>
 
-                <Button
-                  onClick={() => handleRedeem(reward.name, reward.points)}
-                  disabled={reward.points > data.loyaltyPoints && reward.points > 0}
-                  className={`w-full ${
-                    reward.points === 0 || reward.points <= data.loyaltyPoints
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  <Zap className="h-4 w-4 mr-2" />
-                  Redeem
-                </Button>
+                  <Button
+                    onClick={() => handleRedeem(reward.name, reward.points)}
+                    disabled={reward.points > data.loyaltyPoints && reward.points > 0}
+                    className={`w-full ${
+                      reward.points === 0 || reward.points <= data.loyaltyPoints
+                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                    size="sm"
+                  >
+                    <Zap className="h-4 w-4 mr-2" />
+                    Redeem
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
