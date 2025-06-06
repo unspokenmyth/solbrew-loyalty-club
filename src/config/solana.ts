@@ -1,37 +1,37 @@
 
-import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Connection, clusterApiUrl } from '@solana/web3.js';
 
-// Solana network configuration
-export const SOLANA_NETWORK = 'devnet'; // Change to 'mainnet-beta' for production
-export const RPC_ENDPOINT = clusterApiUrl(SOLANA_NETWORK);
+// Solana connection
+export const connection = new Connection(
+  process.env.NODE_ENV === 'production' 
+    ? clusterApiUrl('mainnet-beta')
+    : clusterApiUrl('devnet'),
+  'confirmed'
+);
 
-// Connection to Solana network
-export const connection = new Connection(RPC_ENDPOINT, 'confirmed');
-
-// Mock program ID (replace with actual deployed program ID)
-export const LOYALTY_PROGRAM_ID = new PublicKey('11111111111111111111111111111111');
-
-// NFT Collection configuration
+// NFT Collection Configuration
 export const NFT_COLLECTION_CONFIG = {
   Bronze: {
     name: 'SolBrew Bronze Membership',
-    symbol: 'SOLBREW_BRONZE',
-    description: 'Bronze tier membership NFT for SolBrew Loyalty Program',
-    image: 'https://your-storage.com/bronze-nft.png',
-    price: 0.1, // SOL
+    symbol: 'SOLBREW-B',
+    description: 'Bronze tier membership NFT for SolBrew loyalty program with 5% discounts and priority queue access.',
+    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop&crop=center',
+    price: 0, // Changed to 0 SOL for testing
   },
   Silver: {
     name: 'SolBrew Silver Membership',
-    symbol: 'SOLBREW_SILVER', 
-    description: 'Silver tier membership NFT for SolBrew Loyalty Program',
-    image: 'https://your-storage.com/silver-nft.png',
-    price: 0.25, // SOL
+    symbol: 'SOLBREW-S', 
+    description: 'Silver tier membership NFT for SolBrew loyalty program with 10% discounts, free upgrades, and exclusive lounge access.',
+    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=400&fit=crop&crop=center',
+    price: 0, // Changed to 0 SOL for testing
   },
   Gold: {
     name: 'SolBrew Gold Membership',
-    symbol: 'SOLBREW_GOLD',
-    description: 'Gold tier membership NFT for SolBrew Loyalty Program', 
-    image: 'https://your-storage.com/gold-nft.png',
-    price: 0.5, // SOL
+    symbol: 'SOLBREW-G',
+    description: 'Gold tier membership NFT for SolBrew loyalty program with 15% discounts, VIP perks, and private barista sessions.',
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop&crop=center',
+    price: 0, // Changed to 0 SOL for testing
   },
-};
+} as const;
+
+export type TierType = keyof typeof NFT_COLLECTION_CONFIG;

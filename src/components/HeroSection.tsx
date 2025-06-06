@@ -1,88 +1,94 @@
 
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Coffee, Zap, Crown } from "lucide-react";
+import { Coffee, Zap, Star, Crown } from "lucide-react";
+import { HeroGeometric } from "@/components/ui/shape-landing-hero";
+import { useWallet } from "@/hooks/useWallet";
 
 export const HeroSection = () => {
-  const scrollToTiers = () => {
-    const tiersSection = document.querySelector('#membership-tiers');
-    tiersSection?.scrollIntoView({ behavior: 'smooth' });
+  const { connected } = useWallet();
+
+  const scrollToMembership = () => {
+    const element = document.getElementById('membership-tiers');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-600/10 via-orange-500/5 to-yellow-400/10"></div>
-      <div className="absolute top-20 left-10 w-32 h-32 bg-amber-300/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-orange-300/20 rounded-full blur-3xl"></div>
+    <div className="relative">
+      <HeroGeometric 
+        badge="SolBrew Loyalty"
+        title1="Elevate Your Coffee"
+        title2="Experience"
+      />
       
-      <div className="container mx-auto text-center relative z-10">
-        <div className="mb-8">
-          <div className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 mb-6 border border-amber-200">
-            <Zap className="h-4 w-4 text-amber-600" />
-            <span className="text-sm font-medium text-amber-700">Powered by Solana Blockchain</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-            Brew Your Way to
-            <span className="block bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent">
-              Exclusive Rewards
-            </span>
-          </h1>
-          
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
-            Join the first decentralized coffee loyalty program. Mint NFT memberships, 
-            earn rewards, and enjoy exclusive perks at SolBrew Coffee. Your loyalty, 
-            now on the blockchain.
-          </p>
-        </div>
+      {/* Content Overlay */}
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1.5 }}
+              className="mb-12"
+            >
+              <p className="text-xl md:text-2xl text-amber-100/80 mb-8 leading-relaxed font-light max-w-3xl mx-auto drop-shadow-lg">
+                Join the future of coffee loyalty with blockchain-powered NFT memberships. 
+                Unlock exclusive perks, earn rewards, and be part of the SolBrew community.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button
+                  onClick={scrollToMembership}
+                  size="lg"
+                  className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold px-8 py-4 text-lg shadow-2xl hover:shadow-amber-500/25 transition-all duration-300 hover:scale-105"
+                >
+                  <Coffee className="h-5 w-5 mr-2" />
+                  Get Your NFT Membership
+                </Button>
+                
+                {connected && (
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-amber-200/30 text-amber-100 hover:bg-amber-100/10 hover:text-white bg-white/5 backdrop-blur-sm px-8 py-4 text-lg shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    <Star className="h-5 w-5 mr-2" />
+                    View My Rewards
+                  </Button>
+                )}
+              </div>
+            </motion.div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-            onClick={scrollToTiers}
-          >
-            <Crown className="h-5 w-5 mr-2" />
-            Mint Your Membership
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            size="lg"
-            className="border-2 border-amber-600 text-amber-700 hover:bg-amber-50 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
-          >
-            <Coffee className="h-5 w-5 mr-2" />
-            Learn More
-          </Button>
-        </div>
-
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/80 transition-all duration-300">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Crown className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">NFT Memberships</h3>
-            <p className="text-gray-600">Unique tiered memberships as NFTs on Solana blockchain</p>
-          </div>
-
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/80 transition-all duration-300">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Coffee className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Real Rewards</h3>
-            <p className="text-gray-600">Redeem your NFT perks for actual coffee and treats</p>
-          </div>
-
-          <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/80 transition-all duration-300">
-            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-amber-500 rounded-xl flex items-center justify-center mb-4 mx-auto">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Instant Verification</h3>
-            <p className="text-gray-600">Fast, secure verification through blockchain technology</p>
+            {/* Feature highlights */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 2 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+            >
+              <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-amber-200/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <Zap className="h-8 w-8 text-amber-400 mb-4 mx-auto" />
+                <h3 className="text-lg font-semibold text-white mb-2">Instant Rewards</h3>
+                <p className="text-amber-100/70 text-sm">Get immediate access to discounts and perks</p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-amber-200/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <Crown className="h-8 w-8 text-amber-400 mb-4 mx-auto" />
+                <h3 className="text-lg font-semibold text-white mb-2">VIP Access</h3>
+                <p className="text-amber-100/70 text-sm">Exclusive events and premium experiences</p>
+              </div>
+              
+              <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-amber-200/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <Star className="h-8 w-8 text-amber-400 mb-4 mx-auto" />
+                <h3 className="text-lg font-semibold text-white mb-2">Blockchain Verified</h3>
+                <p className="text-amber-100/70 text-sm">Secure, tradeable NFT memberships</p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
